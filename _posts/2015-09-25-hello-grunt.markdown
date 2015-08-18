@@ -92,7 +92,7 @@ module.exports = function(grunt) {
 
   // 配置Grunt各种模块的参数
   grunt.initConfig({
-    jshint: { /* jshint的参数 */ },
+    jshint: {},
     concat: { /* concat的参数 */ },
     uglify: { /* uglify的参数 */ },
     watch:  { /* watch的参数 */ }
