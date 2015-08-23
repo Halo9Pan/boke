@@ -1,0 +1,27 @@
+title: PHoneIX
+description: 心有多远，路就有多远。
+
+url: http://blog.halo9pan.cn
+baseurl: ""
+paginate_path: "page:num/"
+permalink: :title/
+
+markdown: redcarpet
+highlighter: pygments
+paginate: 5
+
+navigation:
+ - title: Home
+   url: /index.html
+ - title: About
+   url: /about.html
+ - title: Contact
+   url: /contact.html
+
+social:
+   github: Halo9Pan
+   twitter: Halo9Pan
+   facebook: Halo9Pan
+   email: me@halo9pan.cn
+
+google_analytics: "UA-43856748-6"
