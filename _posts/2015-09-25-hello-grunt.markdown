@@ -94,7 +94,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     jshint: {},
     concat: {},
-    uglify: { /* uglify的参数 */ },
+    uglify: {},
     watch:  { /* watch的参数 */ }
   });
 
