@@ -61,7 +61,7 @@ console.log("The current time is:", Date.now());
 console.groupEnd();
 console.table([[1,2,3], [2,3,4]]);
 console.log("The current time is: %O", Date())
-console.log("%cThis will be formatted with large, blue text", "color: blue; font-size: large");
+console.log("%c天空深蓝", "color: DeepSkyBlue; font-size: large");
 console.log(document)
 console.dir(document)
 console.time("Array initialize");
