@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Contact Long Haul
+title: 联系方式
 ---
 
 <div id="contact">
