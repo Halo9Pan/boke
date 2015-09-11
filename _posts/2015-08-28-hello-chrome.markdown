@@ -64,6 +64,10 @@ console.log("The current time is: %O", Date())
 console.log("%c天空深蓝", "color: DeepSkyBlue; font-size: large");
 console.log(document)
 console.dir(document)
+console.clear()
+{% endhighlight %}
+
+{% highlight js %}
 console.time("Array initialize");
     var a = new Array(100000);
     console.assert(a.length > 200000, "a is > 2000000");
@@ -74,86 +78,109 @@ console.time("Array initialize");
         a[i] = new Object();
     };
 console.timeEnd("Array initialize");
+{% endhighlight %}
 
-console.profile()
-console.clear()
+{% highlight js %}
+monitorEvents(document.body, "click");
+unmonitorEvents(document.body);
+{% endhighlight %}
+
+{% highlight js %}
+debugger;
+{% endhighlight %}
+
+{% highlight js %}
 $()
 $$()
 $x()
-
-monitorEvents(document.body, "click");
-unmonitorEvents(document.body);
-
-debugger;
-
-profile()
-profileEnd()
-
+$0 - $4
 {% endhighlight %}
 
+{% highlight js %}
+profile()
+profileEnd()
+{% endhighlight %}
+
+### 小技巧
++ **Ctrl + P** 快速打开文件
++ **Ctrl + Shift + F** 在源代码中搜索
++ **Ctrl + G** 跳转到指定行数
++ **$** 在控制台查找元素
++ **Ctrl** 多选
++ **Preserve log** 保存日志
++ **{}** 格式化代码
++ **仿真设备**
++ **Emulation-->Sensors** 设备仿真传感器
++ **颜色选择器**
++ **强制元素状态**
++ **动画控制**
++ **Ctrl + D** 多匹配
++ **Shift + Click** 颜色格式转换
++ **Workspaces** 神奇的本地开发环境
+
 ### 我的 Chrome 开发扩展和应用
-[Context](https://chrome.google.com/webstore/detail/context/aalnjolghjkkogicompabhhbbkljnlka)  
-[DHC - REST/HTTP API Client](https://chrome.google.com/webstore/detail/context/aejoelaoggembcahagimdiliamlcdmfm)  
-[Caret-T](https://chrome.google.com/webstore/detail/context/agiednhnlghobdgpgfdnbdaflnngmoij)  
-[Writebox](https://chrome.google.com/webstore/detail/context/bbehjmjchoiaglkeboicbgkpfafcmhij)  
-[JSON Formatter](https://chrome.google.com/webstore/detail/context/bcjindcccaagfpapjjmafapmmgkkhgoa)  
-[Web Developer](https://chrome.google.com/webstore/detail/context/bfbameneiokkgbdmiekhjnmfkcnldhhm)  
-[DevTools Theme: Zero Dark Matrix](https://chrome.google.com/webstore/detail/context/bomhdjeadceaggdgfoefmpeafkjhegbo)  
-[HTML Validator](https://chrome.google.com/webstore/detail/context/cgndfbhngibokieehnjhbjkkhbfmhojo)  
-[JSONView](https://chrome.google.com/webstore/detail/context/chklaanhfefbnpoihckbnefhakgolnmc)  
-[RegExp Tester App](https://chrome.google.com/webstore/detail/context/cmmblmkfaijaadfjapjddbeaoffeccib)  
-[Clear Cache](https://chrome.google.com/webstore/detail/context/cppjkneekbjaeellbfkmgnhonkkjfpdn)  
-[BuiltWith Technology Profiler](https://chrome.google.com/webstore/detail/context/dapjbgnjinbpoindlpdmhochffioedbn)  
-[jQuery Debugger](https://chrome.google.com/webstore/detail/context/dbhhnnnpaeobfddmlalhnehgclcmjimi)  
-[Tampermonkey](https://chrome.google.com/webstore/detail/context/dhdgffkkebhmkfjojejmpbldmpobfkfo)  
-[Vim](https://chrome.google.com/webstore/detail/context/dhhoacdlegcbdglbfnhgnlchpkdlofkb)  
-[Dark WebSocket Terminal](https://chrome.google.com/webstore/detail/context/dmogdjmcpfaibncngoolgljgocdabhke)  
-[Markdown Editor](https://chrome.google.com/webstore/detail/context/dpibenlpmppnjcjfpcdgfomalnejildm)  
-[Ra](https://chrome.google.com/webstore/detail/context/egipeapdjjhflkafmacobnmdbdkanoag)  
-[ARC Welder](https://chrome.google.com/webstore/detail/context/emfinbmielocnlhgmfkkmkngdoccbadn)  
-[Postman - REST Client](https://chrome.google.com/webstore/detail/context/fdmmgilgnpjigdojojpjoooidkmcomcm)  
-[Full Page Screen Capture](https://chrome.google.com/webstore/detail/context/fdpohaocaechififmbbbbbknoalclacl)  
-[RegExp Tester](https://chrome.google.com/webstore/detail/context/fekbbmalpajhfifodaakkfeodkpigjbk)  
-[Postman](https://chrome.google.com/webstore/detail/context/fhbjgbiflinjbdggehcddcbncdddomop)  
-[Serverauditor - SSH client](https://chrome.google.com/webstore/detail/context/fjcdjmmkgnkgihjnlbgcdamkadlkbmam)  
-[Stylish](https://chrome.google.com/webstore/detail/context/fjnbnpbmkenffdnngjfgmeleoegfcffe)  
-[Caret](https://chrome.google.com/webstore/detail/context/fljalecfjciodhpcledpamjachpmelml)  
-[CSS Grady](https://chrome.google.com/webstore/detail/context/gdhlnmdfoeaagdlljpiklddgfnfidfli)  
-[CSSViewer](https://chrome.google.com/webstore/detail/context/ggfgijbpiheegefliciemofobhmofgce)  
-[Click&Clean](https://chrome.google.com/webstore/detail/context/ghgabhipcejejjmhhchfonmamedcbeod)  
-[FastString - String Operations](https://chrome.google.com/webstore/detail/context/gpknmoniniacaobkeclmiiaekniaddnd)  
-[Gradient Creator!](https://chrome.google.com/webstore/detail/context/hcplneddoadgichngfbobgpllfphdfla)  
-[Font Playground](https://chrome.google.com/webstore/detail/context/hdpmpnhaoddjelneingmbnhaibbmjgno)  
-[Advanced REST client](https://chrome.google.com/webstore/detail/context/hgmloofddffdnphfgcellkdfbfbjeloo)  
-[Eye Dropper](https://chrome.google.com/webstore/detail/context/hmdcmlfkchdmnmnmheododdhjedfccka)  
-[ExtensionJetBrains IDE Support](https://chrome.google.com/webstore/detail/context/hmhgeddbohgjknpmjagkdomcpobmllji)  
-[Appspector](https://chrome.google.com/webstore/detail/context/homgcnaoacgigpkkljjjekpignblkeae)  
-[Web Developer Checklist](https://chrome.google.com/webstore/detail/context/iahamcpedabephpcgkeikbclmaljebjp)  
-[Live HTTP Headers](https://chrome.google.com/webstore/detail/context/iaiioopjkcekapmldfgbebdclcnpgnlo)  
-[AngularJS Batarang](https://chrome.google.com/webstore/detail/context/ighdmehidhipcmcojjgiloacoafjmpfk)  
-[jquery-injector](https://chrome.google.com/webstore/detail/context/indebdooekgjhkncmgbkeopjebofdoid)  
-[WhatFont](https://chrome.google.com/webstore/detail/context/jabopobgcpjmedljpbcaablpmlmfcogm)  
-[Chremacs](https://chrome.google.com/webstore/detail/context/kglkomofdfeolfjjnmhdpkadaildaogd)  
-[Window Resizer](https://chrome.google.com/webstore/detail/context/kkelicaakdanhinjdeammmilcgefonfh)  
-[Sketchpad](https://chrome.google.com/webstore/detail/context/kkghjbajgkcialbbimbifdcjilhcgoim)  
-[Color Sphere!](https://chrome.google.com/webstore/detail/context/knomilfbnhpkmibhmleppnkmcempglag)  
-[Hosts Manager](https://chrome.google.com/webstore/detail/context/kpfmckjjpabojdhlncnccfhkfhbmnjfi)  
-[IcoMoon](https://chrome.google.com/webstore/detail/context/kppingdhhalimbaehfmhldppemnmlcjd)  
-[IP Address and Domain Information](https://chrome.google.com/webstore/detail/context/lhgkegeccnckoiliokondpaaalbhafoa)  
-[JSON Editor](https://chrome.google.com/webstore/detail/context/lhkmoheomjbkfloacpgllgjcamhihfaj)  
-[Lightshot](https://chrome.google.com/webstore/detail/context/mbniclmhobmnbdlbpiphghaielnnpgdp)  
-[App Runtime for Chrome](https://chrome.google.com/webstore/detail/context/mfaihdlpglflfgpfjcifdjdjcckigekc)  
-[Tailor](https://chrome.google.com/webstore/detail/context/mfakmogheanjhlgjhpijkhdjegllgenf)  
-[HostAdmin App](https://chrome.google.com/webstore/detail/context/mfoaclfeiefiehgaojbmncmefhdnikeg)  
-[Parallax Background Builder](https://chrome.google.com/webstore/detail/context/mklkemobgbjfgpnhfbdbainmenjanpbe)  
-[Text](https://chrome.google.com/webstore/detail/context/mmfbcljfglbokpmkimbfghdkjmjhdgbg)  
-[HTTP/2 and SPDY indicator](https://chrome.google.com/webstore/detail/context/mpbpobfflnpcgagjijhmgnchggcjblin)  
-[Poe: Markdown Editor](https://chrome.google.com/webstore/detail/context/mpghdlgejmakmgbigejnjnmgdjaddhje)  
-[Chrome MySQL Admin](https://chrome.google.com/webstore/detail/context/ndgnpnpakfcdjmpgmcaknimfgcldechn)  
-[PrettyPrint](https://chrome.google.com/webstore/detail/context/nipdlgebaanapcphbcidpmmmkcecpkhg)  
-[Color Picker and Converter](https://chrome.google.com/webstore/detail/context/ofkcpbjmhcdipbhcdfechmckpaofdjlf)  
-[Palette for Chrome](https://chrome.google.com/webstore/detail/context/oolpphfmdmjbojolagcbgdemojhcnlod)  
-[Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/context/padekgcemlokbadohgkifijomclgjgif)  
-[Zed Code Editor](https://chrome.google.com/webstore/detail/context/pfmjnmeipppmcebplngmhfkleiinphhp)  
-[Secure Shell](https://chrome.google.com/webstore/detail/context/pnhechapfaindjhompbnflcldabbghjo)  
++ [Context](https://chrome.google.com/webstore/detail/context/aalnjolghjkkogicompabhhbbkljnlka)  
++ [DHC - REST/HTTP API Client](https://chrome.google.com/webstore/detail/context/aejoelaoggembcahagimdiliamlcdmfm)  
++ [Caret-T](https://chrome.google.com/webstore/detail/context/agiednhnlghobdgpgfdnbdaflnngmoij)  
++ [Writebox](https://chrome.google.com/webstore/detail/context/bbehjmjchoiaglkeboicbgkpfafcmhij)  
++ [JSON Formatter](https://chrome.google.com/webstore/detail/context/bcjindcccaagfpapjjmafapmmgkkhgoa)  
++ [Web Developer](https://chrome.google.com/webstore/detail/context/bfbameneiokkgbdmiekhjnmfkcnldhhm)  
++ [DevTools Theme: Zero Dark Matrix](https://chrome.google.com/webstore/detail/context/bomhdjeadceaggdgfoefmpeafkjhegbo)  
++ [HTML Validator](https://chrome.google.com/webstore/detail/context/cgndfbhngibokieehnjhbjkkhbfmhojo)  
++ [JSONView](https://chrome.google.com/webstore/detail/context/chklaanhfefbnpoihckbnefhakgolnmc)  
++ [RegExp Tester App](https://chrome.google.com/webstore/detail/context/cmmblmkfaijaadfjapjddbeaoffeccib)  
++ [Clear Cache](https://chrome.google.com/webstore/detail/context/cppjkneekbjaeellbfkmgnhonkkjfpdn)  
++ [BuiltWith Technology Profiler](https://chrome.google.com/webstore/detail/context/dapjbgnjinbpoindlpdmhochffioedbn)  
++ [jQuery Debugger](https://chrome.google.com/webstore/detail/context/dbhhnnnpaeobfddmlalhnehgclcmjimi)  
++ [Tampermonkey](https://chrome.google.com/webstore/detail/context/dhdgffkkebhmkfjojejmpbldmpobfkfo)  
++ [Vim](https://chrome.google.com/webstore/detail/context/dhhoacdlegcbdglbfnhgnlchpkdlofkb)  
++ [Dark WebSocket Terminal](https://chrome.google.com/webstore/detail/context/dmogdjmcpfaibncngoolgljgocdabhke)  
++ [Markdown Editor](https://chrome.google.com/webstore/detail/context/dpibenlpmppnjcjfpcdgfomalnejildm)  
++ [Ra](https://chrome.google.com/webstore/detail/context/egipeapdjjhflkafmacobnmdbdkanoag)  
++ [ARC Welder](https://chrome.google.com/webstore/detail/context/emfinbmielocnlhgmfkkmkngdoccbadn)  
++ [Postman - REST Client](https://chrome.google.com/webstore/detail/context/fdmmgilgnpjigdojojpjoooidkmcomcm)  
++ [Full Page Screen Capture](https://chrome.google.com/webstore/detail/context/fdpohaocaechififmbbbbbknoalclacl)  
++ [RegExp Tester](https://chrome.google.com/webstore/detail/context/fekbbmalpajhfifodaakkfeodkpigjbk)  
++ [Postman](https://chrome.google.com/webstore/detail/context/fhbjgbiflinjbdggehcddcbncdddomop)  
++ [Serverauditor - SSH client](https://chrome.google.com/webstore/detail/context/fjcdjmmkgnkgihjnlbgcdamkadlkbmam)  
++ [Stylish](https://chrome.google.com/webstore/detail/context/fjnbnpbmkenffdnngjfgmeleoegfcffe)  
++ [Caret](https://chrome.google.com/webstore/detail/context/fljalecfjciodhpcledpamjachpmelml)  
++ [CSS Grady](https://chrome.google.com/webstore/detail/context/gdhlnmdfoeaagdlljpiklddgfnfidfli)  
++ [CSSViewer](https://chrome.google.com/webstore/detail/context/ggfgijbpiheegefliciemofobhmofgce)  
++ [Click&Clean](https://chrome.google.com/webstore/detail/context/ghgabhipcejejjmhhchfonmamedcbeod)  
++ [FastString - String Operations](https://chrome.google.com/webstore/detail/context/gpknmoniniacaobkeclmiiaekniaddnd)  
++ [Gradient Creator!](https://chrome.google.com/webstore/detail/context/hcplneddoadgichngfbobgpllfphdfla)  
++ [Font Playground](https://chrome.google.com/webstore/detail/context/hdpmpnhaoddjelneingmbnhaibbmjgno)  
++ [Advanced REST client](https://chrome.google.com/webstore/detail/context/hgmloofddffdnphfgcellkdfbfbjeloo)  
++ [Eye Dropper](https://chrome.google.com/webstore/detail/context/hmdcmlfkchdmnmnmheododdhjedfccka)  
++ [ExtensionJetBrains IDE Support](https://chrome.google.com/webstore/detail/context/hmhgeddbohgjknpmjagkdomcpobmllji)  
++ [Appspector](https://chrome.google.com/webstore/detail/context/homgcnaoacgigpkkljjjekpignblkeae)  
++ [Web Developer Checklist](https://chrome.google.com/webstore/detail/context/iahamcpedabephpcgkeikbclmaljebjp)  
++ [Live HTTP Headers](https://chrome.google.com/webstore/detail/context/iaiioopjkcekapmldfgbebdclcnpgnlo)  
++ [AngularJS Batarang](https://chrome.google.com/webstore/detail/context/ighdmehidhipcmcojjgiloacoafjmpfk)  
++ [jquery-injector](https://chrome.google.com/webstore/detail/context/indebdooekgjhkncmgbkeopjebofdoid)  
++ [WhatFont](https://chrome.google.com/webstore/detail/context/jabopobgcpjmedljpbcaablpmlmfcogm)  
++ [Chremacs](https://chrome.google.com/webstore/detail/context/kglkomofdfeolfjjnmhdpkadaildaogd)  
++ [Window Resizer](https://chrome.google.com/webstore/detail/context/kkelicaakdanhinjdeammmilcgefonfh)  
++ [Sketchpad](https://chrome.google.com/webstore/detail/context/kkghjbajgkcialbbimbifdcjilhcgoim)  
++ [Color Sphere!](https://chrome.google.com/webstore/detail/context/knomilfbnhpkmibhmleppnkmcempglag)  
++ [Hosts Manager](https://chrome.google.com/webstore/detail/context/kpfmckjjpabojdhlncnccfhkfhbmnjfi)  
++ [IcoMoon](https://chrome.google.com/webstore/detail/context/kppingdhhalimbaehfmhldppemnmlcjd)  
++ [IP Address and Domain Information](https://chrome.google.com/webstore/detail/context/lhgkegeccnckoiliokondpaaalbhafoa)  
++ [JSON Editor](https://chrome.google.com/webstore/detail/context/lhkmoheomjbkfloacpgllgjcamhihfaj)  
++ [Lightshot](https://chrome.google.com/webstore/detail/context/mbniclmhobmnbdlbpiphghaielnnpgdp)  
++ [App Runtime for Chrome](https://chrome.google.com/webstore/detail/context/mfaihdlpglflfgpfjcifdjdjcckigekc)  
++ [Tailor](https://chrome.google.com/webstore/detail/context/mfakmogheanjhlgjhpijkhdjegllgenf)  
++ [HostAdmin App](https://chrome.google.com/webstore/detail/context/mfoaclfeiefiehgaojbmncmefhdnikeg)  
++ [Parallax Background Builder](https://chrome.google.com/webstore/detail/context/mklkemobgbjfgpnhfbdbainmenjanpbe)  
++ [Text](https://chrome.google.com/webstore/detail/context/mmfbcljfglbokpmkimbfghdkjmjhdgbg)  
++ [HTTP/2 and SPDY indicator](https://chrome.google.com/webstore/detail/context/mpbpobfflnpcgagjijhmgnchggcjblin)  
++ [Poe: Markdown Editor](https://chrome.google.com/webstore/detail/context/mpghdlgejmakmgbigejnjnmgdjaddhje)  
++ [Chrome MySQL Admin](https://chrome.google.com/webstore/detail/context/ndgnpnpakfcdjmpgmcaknimfgcldechn)  
++ [PrettyPrint](https://chrome.google.com/webstore/detail/context/nipdlgebaanapcphbcidpmmmkcecpkhg)  
++ [Color Picker and Converter](https://chrome.google.com/webstore/detail/context/ofkcpbjmhcdipbhcdfechmckpaofdjlf)  
++ [Palette for Chrome](https://chrome.google.com/webstore/detail/context/oolpphfmdmjbojolagcbgdemojhcnlod)  
++ [Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/context/padekgcemlokbadohgkifijomclgjgif)  
++ [Zed Code Editor](https://chrome.google.com/webstore/detail/context/pfmjnmeipppmcebplngmhfkleiinphhp)  
++ [Secure Shell](https://chrome.google.com/webstore/detail/context/pnhechapfaindjhompbnflcldabbghjo)  
 [Chrome Dev Editor](https://chrome.google.com/webstore/detail/context/pnoffddplpippgcfjdhbmhkofpnaalpg)  
