@@ -95,7 +95,7 @@ module.exports = function(grunt) {
     jshint: {},
     concat: {},
     uglify: {},
-    watch:  { /* watch的参数 */ }
+    watch:  {}
   });
 
   // 从node_modules目录加载模块文件
