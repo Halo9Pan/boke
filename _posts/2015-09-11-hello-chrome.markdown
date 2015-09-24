@@ -66,6 +66,9 @@ console.log(document)
 console.dir(document)
 console.clear()
 {% endhighlight %}
+{% highlight js %}
+{% include_relative code/hello/tips/chrome.js %}
+{% endhighlight %}
 
 {% highlight js %}
 console.time("Array initialize");
