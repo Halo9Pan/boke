@@ -1,15 +1,18 @@
 ---
 layout: post
-title:  "Hello Chrome!"
-date:   2015-09-11 14:00:00
+title:  "Hello Bower!"
+date:   2015-09-25 14:00:00
 categories: Development
 ---
 
-### MyChrome
-墙内升级 Chrome 的利器：[MyChrome](http://code.taobao.org/p/mychrome/src/trunk/release/)，选择sina.com.cn的源就可以在墙内升级了
+### 前端包管理器
+一个可以帮助你管理你的应用的前端依赖库的包管理器
 
-### 命令行启动参数
-没有官方的启动参数文档，只有一个三方的文档，是作者根据 Chrome 分析出来的：[List of Chromium Command Line Switches](http://peter.sh/experiments/chromium-command-line-switches/)  介绍一些常用的：  
+### 安装Bower
+{% highlight sh %}
+npm install -g bower
+bower -v
+{% endhighlight %}
 
 + **--user-data-dir** 指定用户数据目录，每个 Chrome 使用独立的数据目录，比如普通上网浏览用一个，开发时用一个，每个数据目录有不同的配置、扩展和应用。这是比 Profile 更高一级的隔离。同一数据目录下的 Profile 虽然也能配置不同的设置、扩展和应用，但是所有的 Profile 的扩展会都启动，消耗内存。  
 + **--incognito** 直接用隐身模式启动。  
