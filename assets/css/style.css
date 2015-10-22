@@ -1,4 +1,4 @@
-/* normalize-scss 3.0.2+normalize.3.0.2 | MIT/GPLv2 License | bit.ly/normalize-scss */
+/* normalize-scss 3.0.3+normalize.3.0.3 | MIT/GPLv2 License | bit.ly/normalize-scss */
 /**
  * Establish a vertical rhythm unit using $base-font-size, $base-line-height,
  * and $rhythm-unit variables. Also, correct text resizing oddly in IE 6/7 when
@@ -11,8 +11,8 @@ html {
 
 /**
  * 1. Set default font family to sans-serif.
- * 2. Prevent iOS text size adjust after orientation change, without disabling
- *    user zoom.
+ * 2. Prevent iOS and IE text size adjust after device orientation change,
+ *    without disabling user zoom.
  */
 html {
   font-family: sans-serif;
@@ -87,7 +87,7 @@ audio:not([controls]) {
 }
 
 /**
- * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.
  */
 template {
   display: none;
@@ -103,7 +103,8 @@ a {
 }
 
 /**
- * Improve readability when focused and also mouse hovered in all browsers.
+ * Improve readability of focused elements when they are also in an
+ * active/hover state.
  */
 a:active,
 a:hover {
@@ -457,8 +458,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /**
  * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
- * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
- *    (include `-moz` to future-proof).
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.
  */
 input[type="search"] {
   -webkit-appearance: textfield;
@@ -925,13 +925,11 @@ html {
 
 body {
   font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
-  line-height: 1.75;
-  font-size: 112.5%;
   color: #111;
   overflow-x: hidden;
 }
 body p, body ul {
-  margin: 0 0 2rem;
+  margin: 0.2rem 0 0 0;
 }
 
 ::-moz-selection {
@@ -1336,6 +1334,12 @@ POST LIST STYLING
   margin: 0 0 .5em;
 }
 
+table {
+  font-family: Monaco, Inconsolata, "Droid Sans Mono", "Courier New", monospace;
+  line-height: 1;
+  font-size: 80%;
+}
+
 @media only screen and (min-width: 800px) {
   /***************
   GLOBAL STYLES
@@ -1471,10 +1475,10 @@ POST LIST STYLING
     float: none;
   }
   .post h1, .post .h1, .post h2, .post .h2, .post h3, .post .h3 {
-    margin: 1rem auto;
+    margin: 2rem auto;
   }
   .post h4, .post .h4, .post h5, .post .h5, .post h6, .post .h6 {
-    margin: 0.4rem auto 0.2rem auto;
+    margin: 1rem auto 0.2rem auto;
   }
   .post .pageTitle {
     margin: 2rem auto 1em;
