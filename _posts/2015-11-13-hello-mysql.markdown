@@ -5,8 +5,6 @@ date:   2015-11-06 14:00:00
 categories: Development
 ---
 
-[Backbone.js](http://backbonejs.org/)
-
 ### 安装
 
 ### 初始化
@@ -35,7 +33,6 @@ net_buffer_length       = 2K
 thread_stack            = 128K
 sql_mode                = NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
 skip-external-locking
-explicit_defaults_for_timestamp 
 character-set-server    = utf8
 collation-server        = utf8_unicode_ci
 lower_case_table_names  = 1
@@ -196,17 +193,17 @@ DESCRIBE vocabulary;
 SHOW CREATE TABLE vocabulary \g
 {% endhighlight %}
 
-#### 插入数据
 {% highlight sql %}
-INSERT INTO guest (nick_name)
-VALUES ('Ada'),
-('David'),
-('Robbie');
+CREATE TABLE guest_isam (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nick_name CHAR(64) UNIQUE,
+  visit_time INT NOT NULL DEFAULT 0
+) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=gbk COLLATE=gbk_chinese_ci;
+{% endhighlight %}
 
-INSERT INTO guest (nick_name, visit_time)
-VALUES ('Johnson', 1),
-('John', 0),
-('James', 0);
+{% highlight sql %}
+SHOW FULL COLUMNS
+FROM guest LIKE 'nick' \g
 {% endhighlight %}
 
 #### 备份数据
@@ -295,3 +292,133 @@ INSERT INTO guest (nick_name)
 VALUES ('Ronaldo ');
 SELECT * FROM guest;
 {% endhighlight %}
+
+### 数据操作
+
+#### 插入数据
+{% highlight sql %}
+INSERT INTO guest (nick_name)
+VALUES ('Ada'),
+('David'),
+('Robbie');
+
+INSERT INTO guest (nick_name, visit_time)
+VALUES ('Johnson', 1),
+('John', 0),
+('James', 0);
+
+SELECT * FROM guest;
+{% endhighlight %}
+
+{% highlight sql %}
+CREATE TABLE guest_new LIKE guest;
+DESCRIBE guest_new;
+
+ALTER TABLE guest_new
+ADD COLUMN nick_name_new VARCHAR(127);
+
+INSERT IGNORE INTO guest_new
+(nick_name, nick_name_new, visit_time)
+SELECT nick_name, nick_name, visit_time FROM guest;
+
+SELECT * FROM guest_new;
+{% endhighlight %}
+
+{% highlight sql %}
+REPLACE INTO guest (nick_name)
+VALUES ('Ada'),
+('David'),
+('Robbie');
+
+REPLACE INTO guest (nick_name, visit_time)
+VALUES ('Johnson', 101),
+('John', 100),
+('James', 100);
+
+REPLACE INTO guest (nick_name, nick_type)
+VALUES ('Ada', 1),
+('David', 1),
+('Robbie',1 );
+
+SELECT * FROM guest;
+{% endhighlight %}
+
+{% highlight sql %}
+INSERT LOW_PRIORITY INTO guest (nick_name)
+VALUES ('Aaric'),
+('Aart'),
+('Abbeygail');
+
+-- INSERT DELAYED INTO guest (nick_name)
+-- VALUES ('Abbot'), ('Abbott'), ('Abeodan');
+
+INSERT INTO guest (nick_name) VALUES ('Aaric')
+  ON DUPLICATE KEY UPDATE nick_name = CONCAT('!', nick_name);
+SELECT * FROM guest;
+
+DELETE FROM guest WHERE nick_name LIKE '!%';
+SELECT * FROM guest;
+{% endhighlight %}
+
+{% highlight sql %}
+ALTER TABLE guest
+ADD COLUMN nick_name_used SMALLINT NOT NULL DEFAULT 1;
+DESCRIBE guest;
+
+INSERT INTO guest (nick_name) VALUES ('Aaric')
+  ON DUPLICATE KEY UPDATE nick_name_used = nick_name_used + 1;
+
+SELECT * FROM guest;
+{% endhighlight %}
+
+#### 查询数据
+{% highlight sql %}
+SELECT * FROM guest;
+
+SELECT * FROM guest WHERE visit_time=1;
+SELECT * FROM guest WHERE visit_time IN (1, 100);
+SELECT * FROM guest WHERE nick_name LIKE 'A%';
+SELECT * FROM guest WHERE nick_name REGEXP 'i|o';
+SELECT * FROM guest WHERE nick_name NOT REGEXP 'i|o';
+SELECT * FROM guest WHERE visit_time=1 AND nick_name LIKE 'A%';
+SELECT * FROM guest WHERE visit_time=1 OR nick_name LIKE 'A%';
+
+SELECT * FROM guest ORDER BY visit_time;
+
+SELECT * FROM guest WHERE visit_time>=1 ORDER BY visit_time LIMIT 5;
+SELECT * FROM guest WHERE visit_time>=1 ORDER BY visit_time DESC LIMIT 2;
+
+SELECT COUNT(*) FROM guest;
+SELECT * FROM guest GROUP BY visit_time;
+
+SELECT nick_name, visit_time FROM guest;
+SELECT nick_name AS 'Nick Name', visit_time AS 'Visit Times' FROM guest;
+
+SELECT visit_time AS 'Visit Times',
+COUNT(*) AS 'Number'
+FROM guest
+GROUP BY visit_time;
+{% endhighlight %}
+
+#### 更新数据
+{% highlight sql %}
+SELECT * FROM guest;
+UPDATE guest
+SET visit_time = 10
+WHERE nick_name_used > 1;
+SELECT * FROM guest;
+{% endhighlight %}
+
+#### 删除数据
+{% highlight sql %}
+SELECT * FROM guest;
+DELETE FROM guest
+WHERE visit_time = 0
+AND nick_name_used = 1;
+SELECT * FROM guest;
+{% endhighlight %}
+
+#### 联合查询
+{% highlight sql %}
+{% endhighlight %}
+
