@@ -19,13 +19,13 @@ categories: Development
 
 * "$"用来标识一个变量，如
 {% highlight html %}
-    $i
-    $msg.errorNum
+$i
+$msg.errorNum
 {% endhighlight %}
 
 * "!"用来强制把不存在的变量显示为空白
 {% highlight html %}
-    $!msg
+$!msg
 {% endhighlight %}
 
 * 注释，如：
@@ -41,86 +41,86 @@ xxxx *#
 #### 语法详解
 * 变量赋值输出
 {% highlight html %}
-    Welcome $name to halo9pan.cn!
-    today is $date.
-    tdday is $mydae.//未被定义的变量将当成字符串
+Welcome $name to halo9pan.cn!
+today is $date.
+tdday is $mydae.//未被定义的变量将当成字符串
 {% endhighlight %}
 
 * 设置变量值,所有变量都以$开头
 {% highlight html %}
-    #set( $iAmVariable = "good!" )
-    Welcome $name to halo9pan.cn!
-    today is $date.
-    $iAmVariable
+#set( $iAmVariable = "good!" )
+Welcome $name to halo9pan.cn!
+today is $date.
+$iAmVariable
 {% endhighlight %}
 
 * if,else判断
 {% highlight html %}
-    #set ($admin = "admin")
-    #set ($user = "user")
-    #if ($admin == $user)
-        Welcome admin! 
-    #else
-        Welcome user!
-    #end
+#set ($admin = "admin")
+#set ($user = "user")
+#if ($admin == $user)
+    Welcome admin! 
+#else
+    Welcome user!
+#end
 {% endhighlight %}
 
 * 迭代数据List ($velocityCount为列举序号，默认从1开始)
 {% highlight html %}
-    #foreach( $product in $allProducts ) 
-        <li>$velocityCount $product.title</li>
-    #end
+#foreach( $product in $allProducts ) 
+    <li>$velocityCount $product.title</li>
+#end
 {% endhighlight %}
 
 * 迭代数据get key
 {% highlight html %}
-    #foreach($key in $myProducts.keySet() )
-        $key `s value: $myProducts.get($key)
-    #end
+#foreach($key in $myProducts.keySet() )
+    $key `s value: $myProducts.get($key)
+#end
 {% endhighlight %}
 
 * 导入其它文件,可输入多个
 {% highlight html %}
-    #parse("vm_a.vm")
-    #parse("vm_b.vm")
+#parse("vm_a.vm")
+#parse("vm_b.vm")
 {% endhighlight %}
 
 * 简单遍历多个div
 {% highlight html %}
-    #foreach( $i in [1,2,3,4] )
-    <div>$i</div>
-    #end
+#foreach( $i in [1,2,3,4] )
+<div>$i</div>
+#end
 {% endhighlight %}
 
 * 双引号与单引号
 {% highlight html %}
-    #set ($var="helo")
-    test"$var" 返回testhello
-    test'$var' 返回test'$var'
+#set ($var="helo")
+test"$var" 返回testhello
+test'$var' 返回test'$var'
 {% endhighlight %}
 可以通过设置 stringliterals.interpolate=false改变默认处理方式
 
 * Range
 {% highlight html %}
-    #foreach( $foo in [1..5] )
+#foreach( $foo in [1..5] )
 {% endhighlight %}
 
 * 定义宏macros，相当于函数
 {% highlight html %}
-    #macro( d )
-      <tr><td></td></tr>
-    #end
-    调用
-    #d() 
+#macro( d )
+  <tr><td></td></tr>
+#end
+调用
+#d() 
 {% endhighlight %}
 
 * 带参数的宏
 {% highlight html %}
-    #macro( tablerows $color $somelist )
-      #foreach( $something in $somelist )
-      <tr><td bgcolor=$color>$something</td></tr>
-      #end
-    #end
+#macro( tablerows $color $somelist )
+  #foreach( $something in $somelist )
+  <tr><td bgcolor=$color>$something</td></tr>
+  #end
+#end
 {% endhighlight %}
 
 ### Freemarker
