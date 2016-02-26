@@ -87,3 +87,48 @@ require([module], callback);
 ````
 [require.js](http://requirejs.org/)  
 [curl.js](https://github.com/cujojs/curl)  
+
+````js
+// main.js
+require(['moduleA', 'moduleB', 'moduleC'], function (moduleA, moduleB, moduleC){
+  // some code here
+});
+````
+````js
+require(['jquery', 'underscore', 'backbone'], function ($, _, bb){
+  // some code here
+});
+````
+````js
+require.config({
+  paths: {
+    "jquery": "libs/jquery.min",
+    "underscore": "libs/underscore.min",
+    "backbone": "libs/backbone.min"
+  }
+});
+````
+````js
+// math.js
+define(function (){
+  var add = function (x,y){
+    return x+y;
+  };
+  return {
+    add: add
+  };
+});
+````
+````js
+require.config({
+  shim: {
+    'underscore':{
+      exports: '_'
+    },
+    'backbone': {
+      deps: ['underscore', 'jquery'],
+      exports: 'Backbone'
+    }
+  }
+});
+````
