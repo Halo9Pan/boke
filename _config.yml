@@ -26,3 +26,5 @@ social:
    email: me@halo9pan.cn
 
 google_analytics: "UA-43856748-6"
+
+theme: jekyll-theme-leap-day
