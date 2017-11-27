@@ -1,15 +1,26 @@
+### Site info:
 title: 涅槃之道
+tagline: Another Jekyll theme, Freshman twenty-first
+author: Halo9Pan
+email: me@halo9pan.cn
 description: 心有多远，路就有多远。
-
-url: http://blog.halo9pan.cn
+keywords: "programming, computing, machine learning, visualization"
 baseurl: ""
 permalink: ordinal
+url: http://blog.halo9pan.cn
+locale: zh_CN
 
-markdown: redcarpet
-redcarpet:
-    extensions: ["tables"]
-highlighter: rouge
+
+### Build settings
+markdown: kramdown
+#highlighter: pygments
+kramdown:
+    input: GFM
+    syntax_highlighter: rouge
+plugins: [jekyll-paginate]
 paginate: 5
+excerpt_separator: <!-- more -->
+
 
 navigation:
  - title: 主页
@@ -19,10 +30,67 @@ navigation:
  - title: 联系
    url: /contact.html
 
+### Personal info and site tools info:
 social:
-   github: Halo9Pan
-   twitter: Halo9Pan
-   facebook: Halo9Pan
-   email: me@halo9pan.cn
+  github: Halo9Pan
+  facebook: Halo9Pan
+  twitter: Halo9Pan
+  email: halo9pan@yeah.net
 
-google_analytics: "UA-43856748-6"
+favicon:     "/images/favicon.ico"
+aboutme: 数据画家，闲云匠人，半栈程序员，人工智障者……
+aboutme_photo: http://blog.halo9pan.cn/images/me.jpg
+google_analytics_key: "UA-43856748-6"
+
+
+### Site setting:
+ShowContactInfo: "True" # Personal Info (twitter,github,email) can be seen on aboutme-sidebar, those info only shown where ShowContactInfo == True
+default_column: "two" # blog style: two columns, if default_column != "two", you will see a one column blog.
+default_locale: "cn" # blog sidebar language set, only include: English (en), Chinese (cn), Japanese (jp), Polish (pl), Korean (kr),  Russian (ru), Turkish (tr), and Indonesian (id).
+
+locales:
+  en:
+    Aboutme: "About Me"
+    Archives: "Archives"
+    Blogroll: "Blogroll"
+    Categories: "Categories"
+    Copyright_Notice: "Copyright Notice"
+    Recent_Posts: "Recent Posts"
+    Tags: "Tags"
+    Previous: "Older"
+    Next: "Newer"
+    PostedInCategories: "Posted in"
+    Taggedwith: "and tagged"
+    PostDate: "on "
+    Google_search: "Site Search"
+    Home: "Home"
+    About: "About"
+    Guestbook: "Guestbook"
+    Subscribe: "Subscribe"
+    ContactMe: "You can contact me via:"
+  cn:
+    Aboutme: "关于我"
+    Archives: "存档"
+    Blogroll: "良师益友"
+    Categories: "分类目录"
+    Copyright_Notice: "版权声明"
+    Recent_Posts: "近期文章"
+    Tags: "标签" 
+    Previous: "前一页"
+    Next: "后一页"
+    PostedInCategories: "目录:"
+    Taggedwith: "| 标签:"
+    PostDate: "| 发表时间: "
+    Google_search: "站内搜索"
+    Home: "首页"
+    About: "关于"
+    Guestbook: "留言"
+    Subscribe: "订阅"
+    ContactMe: "联系我："
+
+### your Blogroll info, only name can shown on the page.
+
+Blogroll:
+  - name: Freshman
+    href: http://yulijia.net/freshman
+    title: Another Jekyll blog theme

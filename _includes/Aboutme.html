@@ -1,0 +1,27 @@
+<div class="sidebar-module about">
+  <h4>{{ site.locales[site.default_locale].Aboutme }}</h4>
+  <img title="{{site.author}}" src="{{site.aboutme_photo}}" alt="{{site.author}}"/>
+  <span>{{site.aboutme}}</span>
+  <br />
+
+  {% if site.ShowContactInfo == "True" %}
+
+  {{ site.locales[site.default_locale].ContactMe }}
+  <br />
+
+  {% if site.social.email != empty %}
+  <a href="mailto:{{site.social.email}}" title="mailto: {{site.social.email}}">Email</a> /
+  {% endif %}
+  {% if site.social.github != empty %}
+  <a href="https://github.com/{{site.social.github}}" title="Github: {{site.social.github}}">Github</a> /
+  {% endif %}
+  {% if site.social.facebook != empty %}
+  <a href="https://www.facebook.com/{{site.social.github}}" title="Facebook: {{site.social.facebook}}">Facebook</a> /
+  {% endif %}
+  {% if site.social.twitter != empty %}
+  <a href="https://twitter.com/{{site.social.twitter}}" title="Twitter: {{site.social.twitter}}">Twitter</a>
+  {% endif %}
+
+  {% endif %}
+
+</div>
