@@ -1,9 +1,8 @@
 ### Site info:
 title: 涅槃之道
-tagline: Another Jekyll theme, Freshman twenty-first
-author: Halo9Pan
+tagline: 心有多远，路就有多远。
 email: me@halo9pan.cn
-description: 心有多远，路就有多远。
+description: 基于 Jekyll ，搭建在 Github 上的技术博客。
 keywords: "programming, computing, machine learning, visualization"
 baseurl: ""
 permalink: ordinal
@@ -21,14 +20,6 @@ plugins: [jekyll-paginate]
 paginate: 5
 excerpt_separator: <!-- more -->
 
-
-navigation:
- - title: 主页
-   url: /index.html
- - title: 关于
-   url: /about.html
- - title: 联系
-   url: /contact.html
 
 ### Personal info and site tools info:
 social:
