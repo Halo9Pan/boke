@@ -4,4 +4,3 @@ title: About
 comments: yes
 permalink: /about/
 ---
-

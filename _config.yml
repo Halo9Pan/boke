@@ -12,7 +12,6 @@ locale: zh_CN
 
 ### Build settings
 markdown: kramdown
-#highlighter: pygments
 kramdown:
     input: GFM
     syntax_highlighter: rouge
@@ -22,6 +21,9 @@ plugins:
 paginate: 5
 excerpt_separator: <!-- more -->
 
+collections: 
+  slides:
+    output: true
 
 ### Personal info and site tools info:
 social:
@@ -58,6 +60,7 @@ locales:
     Google_search: "Site Search"
     Home: "Home"
     About: "About"
+    Slides: "Slides"
     Guestbook: "Guestbook"
     Subscribe: "Subscribe"
     ContactMe: "You can contact me via:"
@@ -77,6 +80,7 @@ locales:
     Google_search: "站内搜索"
     Home: "首页"
     About: "关于"
+    Slides: "展演"
     Guestbook: "留言"
     Subscribe: "订阅"
     ContactMe: "联系我："
