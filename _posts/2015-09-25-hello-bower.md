@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Bower!"
-date:   2015-09-25 14:00:00
+layout:     post
+title:      Bower 简介
+date:       2015-09-25
 categories: Development
 ---
 

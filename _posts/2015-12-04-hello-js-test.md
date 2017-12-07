@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Javascript Unit Test!"
-date:   2015-12-04 10:00:00
+layout:     post
+title:      Javascript 单元测试框架
+date:       2015-12-04
 categories: Development
 ---
 

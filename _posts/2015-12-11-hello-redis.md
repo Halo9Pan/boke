@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Redis!"
-date:   2015-12-11 14:00:00
+layout:     post
+title:      Redis 简介
+date:       2015-12-11
 categories: Development
 ---
 

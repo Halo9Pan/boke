@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Hibernate!"
-date:   2015-10-30 14:00:00
+layout:     post
+title:      Hibernate 简介
+date:       2015-10-30
 categories: Development
 ---
 

@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Advanced Redis!"
-date:   2015-12-11 15:00:00
+layout:     post
+title:      Redis 进阶
+date:       2015-12-11
 categories: Development
 ---
 

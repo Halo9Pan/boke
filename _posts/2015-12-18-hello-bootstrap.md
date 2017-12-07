@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Bootstrap!"
-date:   2015-12-18 10:00:00
+layout:     post
+title:      Bootstrap 简介
+date:       2015-12-18
 categories: Development
 ---
 

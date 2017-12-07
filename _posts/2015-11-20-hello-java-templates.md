@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Templates!"
-date:   2015-11-20 10:00:00
+layout:     post
+title:      Java 模板引擎简介
+date:       2015-11-20
 categories: Development
 ---
 

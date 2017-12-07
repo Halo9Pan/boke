@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Reading the word2vec code and refactory."
-date:   2015-07-29 17:53:55
+layout:     post
+title:      word2vec 代码阅读
+date:       2015-07-29
 categories: Machine-Learning
 ---
 主要读过[word2vec 中的数学原理详解（六）若干源码细节](http://blog.csdn.net/itplus/article/details/37999613)和[word2vec源码解析之word2vec.c](http://blog.csdn.net/lingerlanlan/article/details/38232755)，然后结合自己的理解。并对代码做了一定程度上的重构。

@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Javascript Module"
-date:   2016-02-26 14:00:00
+layout:     post
+title:      Javascript Module
+date:       2016-02-26
 categories: Development
 ---
 

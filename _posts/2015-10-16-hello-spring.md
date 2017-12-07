@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Spring!"
-date:   2015-10-16 14:00:00
+layout:     post
+title:      Spring 简介
+date:       2015-10-16
 categories: Development
 ---
 

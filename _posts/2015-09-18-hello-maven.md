@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Maven!"
-date:   2015-09-18 14:00:00
+layout:     post
+title:      Maven 简介
+date:       2015-09-18
 categories: Development
 ---
 

@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Memcache!"
-date:   2015-12-11 14:00:00
+layout:     post
+title:      Memcache 简介
+date:       2015-12-11
 categories: Development
 ---
 

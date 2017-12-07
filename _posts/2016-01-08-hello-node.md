@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Node.js"
-date:   2015-12-25 14:00:00
+layout:     post
+title:      Node.js 简介
+date:       2015-12-25
 categories: Development
 ---
 

@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello jQuery!"
-date:   2015-10-23 14:00:00
+layout:     post
+title:      jQuery 简介
+date:       2015-10-23
 categories: Development
 ---
 

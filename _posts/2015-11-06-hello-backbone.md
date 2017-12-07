@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Backbone!"
-date:   2015-11-06 14:00:00
+layout:     post
+title:      Backbone 简介
+date:       2015-11-06
 categories: Development
 ---
 

@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Chrome!"
-date:   2015-09-11 14:00:00
+layout:     post
+title:      Chrome 简介
+date:       2015-09-11
 categories: Development
 ---
 

@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Netty"
-date:   2016-03-04 14:00:00
+layout:     post
+title:      Netty 简介
+date:       2016-03-04
 categories: Development
 ---
 

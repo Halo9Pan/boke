@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Thrift"
-date:   2016-01-15 14:00:00
+layout:     post
+title:      Thrift 简介
+date:       2016-01-15
 categories: Development
 ---
 

@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello MySQL!"
-date:   2015-11-06 14:00:00
+layout:     post
+title:      MySQL 简介
+date:       2015-11-06
 categories: Development
 ---
 

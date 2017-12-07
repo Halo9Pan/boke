@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Java Concurrency"
-date:   2015-12-25 14:00:00
+layout:     post
+title:      Java Concurrency 40问
+date:       2015-12-25
 categories: Development
 ---
 

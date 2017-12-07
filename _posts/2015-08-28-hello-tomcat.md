@@ -1,11 +1,12 @@
 ---
-layout: post
-title:  "Hello Tomcat!"
-date:   2015-08-28 14:00:00
+layout:     post
+title:      Tomcat 简介
+date:       2015-08-28
 categories: Development
 ---
 
 ### Tomcat 目录结构
+
 - **bin** 执行脚本，启动jar包
 - **conf** 配置文件
 - **lib** Tomcat 的运行库和 JSP/Servlet API

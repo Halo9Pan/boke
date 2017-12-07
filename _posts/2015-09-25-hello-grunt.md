@@ -1,7 +1,7 @@
 ---
-layout: post
-title:  "Hello Grunt!"
-date:   2015-09-25 15:00:00
+layout:     post
+title:      Grunt 简介
+date:       2015-09-25
 categories: Development
 ---
 
