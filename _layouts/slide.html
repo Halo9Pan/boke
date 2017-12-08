@@ -71,6 +71,12 @@
         progress: true,
         history: true,
         center: true,
+        {% if page.mathjax %}
+          math: {
+            mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
+            config: 'TeX-AMS-MML_HTMLorMML'
+          },
+        {% endif %}
         {%if page.transition %}
           transition: '{{page.transition}}',
         {% else %}
@@ -84,6 +90,9 @@
           { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/plugin/markdown/markdown.js", condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
           { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/plugin/highlight/highlight.js", async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
           { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/plugin/zoom-js/zoom.js", async: true },
+          {% if page.mathjax %}
+          { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/plugin/math/math.js", async: true },
+          {% endif %}
           { src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/plugin/notes/notes.js", async: true }
         ]
       });
