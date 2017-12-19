@@ -5,6 +5,8 @@ date:       2017-12-07
 categories: Machine-Learning
 ---
 
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
 ## 在线学习
 
 传统的离线批量算法无法有效地处理超大规模的数据集和在线数据流。
@@ -49,6 +51,7 @@ $$L$$为逻辑函数，$$\lambda$$是正则系数，$$C$$是正则函数
 <!-- Plotly chart will be drawn inside this DIV -->
 </div>
 <script>
+(function() {
 const samples = 200
 const step = 10
 
@@ -70,6 +73,7 @@ let layout = {
 };
 
 Plotly.newPlot('sigmod', data, layout, {displayModeBar: false});
+})()
 </script>
 
 而逻辑回归的**优化方法**，传统的批量方法每次迭代都对**存量**训练数据集进行计算：
@@ -85,17 +89,17 @@ Plotly.newPlot('sigmod', data, layout, {displayModeBar: false});
 
 ## 在线学习算法
 
-典型的**线性函数**随机梯度下降（SGD）参数更新的公式为：$${w}' = {w} + \eta(y_i - h_{w}(x_i))x_i$$。如果每次不是取随机值，而是用从数据流中获得的新数据$$x_t$$计算梯度，就能完成在线学习的过程。
+典型的**线性函数**随机梯度下降（SGD）参数更新的公式为：$${w}' = {w} - \eta(y_i - h_{w}(x_i))\cdot{x_i}$$。如果每次不是取随机值，而是用从数据流中获得的新数据$$x_t$$计算梯度，就能完成在线学习的过程。
 
 $$
-{w}_t = {w}_{t-1} + \eta\:(y - h_{w_{t-1}}(x_t))\:x_t
+{w}_{t+1} = {w}_{t} - \eta\:(h_{w_{t}}(x_{t+1}) - y)\cdot{x_{t+1}}
 $$
 
 姑且称为**在线梯度下降**。
-同样，**线性函数**小批量梯度下降（MBGD）参数更新的公式为：$${w}' = {w} + \eta\frac{1}{k}\sum_{i=1}^k(y_i - h_{w}(x_i))x_i$$。如果每次不是随机找小批量，而是将从数据流中获得的新数据$$x_t$$包含到小批量中计算梯度，也能完成在线学习的过程。
+同样，**线性函数**小批量梯度下降（MBGD）参数更新的公式为：$${w}' = {w} - \eta\frac{1}{k}\sum_{i=1}^k(y_i - h_{w}(x_i))\cdot{x_i}$$。如果每次不是随机找小批量，而是将从数据流中获得的新数据$$x_t$$包含到小批量中计算梯度，也能完成在线学习的过程。
 
 $$
-{w}_t' = {w}_{t-1} + \eta\:\frac{1}{k}\sum_{i=1}^k(y_i - h_{w}(x_i))\:x_i,\ k \ll m,\ t \in K
+{w}_{t+1}' = {w}_{t} - \eta\:\frac{1}{k}\sum_{i=1}^k(y_i - h_{w_{t}}(x_i))\cdot{x_i},\ k \ll m,\ t \in K
 $$
 
 可以称为**在线小批量梯度下降**。
@@ -115,186 +119,199 @@ $$
 
 ## 算法优化
 
-1. 添加 L1 正则项
+1. #### 添加 L1 正则项
 
     如之前提到的，在线学习的过程中参数并不是沿着全局梯度下降，而是沿着某个样本的梯度进行下降，L1 正则不一定会得到稀疏解。另外如果是自己实现的梯度下降算法，需要针对 float 数据类型做简单的阈值截断，牵涉到浮点数精度问题，否则很难能到 0 解。
 
     $$
-    {w}_t = {w}_{t-1} + \eta\:(y - h_{w_{t-1}}(x_t))x_t + \eta\:\lambda\:\ell({w_{t-1}})
+    {w}_{t+1} = {w}_{t} - \eta\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}} + \eta\:\lambda\:\ell({w_{t}})
     $$
 
-1. 暴力截断
+1. #### 暴力截断
 
     上面已经提到为了避免浮点数精度的问题需要做一些截断，当然其目的是为了很小的浮点数相加为0，是基于计算的考虑。沿着这个思路，很容易就能想到基于模型的考虑，也能做截断，这是最直观没技术含量的思路，设定一个阈值，做截断来保证稀疏。每在线训练N个数据截断一次。
 
     $$
-    {w}_t = T_0(({w}_{t-1} + \eta\:(y - h_{w_{t-1}}(x_t))\:x_t),\ {d})
+    {w}_{t+1} = T_0\bigg(\Big({w}_{t} - \eta\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\Big),\ {d}\bigg)
     $$
 
     $$
-    T_0(w'_t, {d}) =
+    T_0(w'_{t+1}, {d}) =
       \begin{cases}
-        0     & \quad \text{if } \left|w'_i\right| \leq {d}\\
-        w'_t  & \quad \text{otherwise}
+        0     & \quad \text{if } \left|w'_{t+1}\right| \leq {d}\\
+        w'_{t+1}  & \quad \text{otherwise}
       \end{cases}
     $$
 
-<div id="truncated-gradient-0" style="width: 400px; height: 400px;">
-<!-- Plotly chart will be drawn inside this DIV -->
-</div>
-<script>
-const range = 10
-const d = 2
-var layout0 = {
-  title: 'Truncated Gradient T0',
-  xaxis: {
-    title: 'w',
-    range: [-range, range],
-    showticklabels: false
-  },
-  yaxis: {
-    title: 'T0',
-    range: [-range, range],
-    showticklabels: false
-  },
-  width: 400,
-  height: 400,
-  annotations: [
-    { x: -d, y: 0, xref: 'x', yref: 'y', text: '-d', showarrow: true, arrowhead: 7, ax: 0, ay: -40 },
-    { x:  d, y: 0, xref: 'x', yref: 'y', text: ' d', showarrow: true, arrowhead: 7, ax: 0, ay:  40 }
-  ]
-};
-let trace0 = {
-  type: 'scatter',
-  x: [-range, -d, -d, d, d, range],
-  y: [-range, -d,  0, 0, d, range],
-  mode: 'lines',
-  name: 'Truncated Gradient',
-  line: {
-    color: 'blue',
-    width: 3
-  },
-  hoverinfo: 'none'
-};
-Plotly.plot('truncated-gradient-0', [trace0], layout0, {displayModeBar: false});
-</script>
+    <div id="truncated-gradient-0" style="width: 400px; height: 400px;">
+    <!-- Plotly chart will be drawn inside this DIV -->
+    </div>
+    <script>
+    (function() {
+    const range = 10
+    const d = 2
+    var layout = {
+      title: 'Truncated Gradient T0',
+      xaxis: {
+        title: 'w',
+        range: [-range, range],
+        showticklabels: false
+      },
+      yaxis: {
+        title: 'T0',
+        range: [-range, range],
+        showticklabels: false
+      },
+      width: 400,
+      height: 400,
+      annotations: [
+        { x: -d, y: 0, xref: 'x', yref: 'y', text: '-d', showarrow: true, arrowhead: 7, ax: 0, ay: -40 },
+        { x:  d, y: 0, xref: 'x', yref: 'y', text: ' d', showarrow: true, arrowhead: 7, ax: 0, ay:  40 }
+      ]
+    };
+    let trace = {
+      type: 'scatter',
+      x: [-range, -d, -d, d, d, range],
+      y: [-range, -d,  0, 0, d, range],
+      mode: 'lines',
+      name: 'Truncated Gradient',
+      line: {
+        color: 'blue',
+        width: 3
+      },
+      hoverinfo: 'none'
+    };
+    Plotly.plot('truncated-gradient-0', [trace], layout, {displayModeBar: false});
+    })()
+    </script>
 
-1. 在 L1 正则的基础上做截断
+1. #### 在 L1 正则的基础上做截断
+
     很明显，简单截断的方法可以增加结果的稀疏性，但是会影响结果的精度。权重小的特征，可能是确实是无用特征，但也可能是在训练刚开始的阶段初始值本来很小、或者训练数据中包含该特征的样本数本来就很少。做为改进，很容易想到可以在添加了在 L1 正则的基础上做截断。
 
     $$
-    {w}_t = T_1(({w}_{t-1} + \eta\:(y - h_{w_{t-1}}(x_t))\:x_t + \eta\:\lambda\:\ell({w_{t-1}})),\ {d})
+    {w}_{t+1} = T_1\bigg(\Big({w}_{t} - \eta\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}} + \eta\:\lambda\:\ell({w_{t}})\Big),\ {d}\bigg)
     $$
 
     $$
-    T_1(w'_t, {a}, {d}) =
+    T_1(w'_{t+1}, {a}, {d}) =
       \begin{cases}
-        max(0, w'_t - {a})  & \quad \text{if } w'_i \in [0, {d}]\\
-        min(0, w'_t - {a})  & \quad \text{if } w'_i \in [-{d}, 0]\\
-        w'_t                & \quad \text{otherwise}
+        max(0, w'_{t+1} - {a})  & \quad \text{if } w'_{t+1} \in [0, {d}]\\
+        min(0, w'_{t+1} - {a})  & \quad \text{if } w'_{t+1} \in [-{d}, 0]\\
+        w'_{t+1}                & \quad \text{otherwise}
       \end{cases}
     $$
 
----
+    <div id="truncated-gradient-1" style="width: 400px; height: 400px;">
+    <!-- Plotly chart will be drawn inside this DIV -->
+    </div>
+    <script>
+    (function() {
+    const range = 10
+    const d = 2
+    const a = 1
+    var layout = {
+      title: 'Truncated Gradient T1',
+      xaxis: {
+        title: 'w',
+        range: [-range, range],
+        showticklabels: false
+      },
+      yaxis: {
+        title: 'T1',
+        range: [-range, range],
+        showticklabels: false
+      },
+      width: 400,
+      height: 400,
+      annotations: [
+        { x: -d, y: 0, xref: 'x', yref: 'y', text: '-d', showarrow: true, arrowhead: 7, ax: 0, ay: -40 },
+        { x:  d, y: 0, xref: 'x', yref: 'y', text: ' d', showarrow: true, arrowhead: 7, ax: 0, ay:  40 },
+        { x: -a, y: 0, xref: 'x', yref: 'y', text: '-a', showarrow: true, arrowhead: 7, ax: 0, ay:  20 },
+        { x:  a, y: 0, xref: 'x', yref: 'y', text: ' a', showarrow: true, arrowhead: 7, ax: 0, ay:  -20 },
+      ]
+    };
+    var trace = {
+      type: 'scatter',
+      x: [-range, -d, -d,    -a, a, d,     d, range],
+      y: [-range, -d, -(d-a), 0, 0, (d-a), d, range],
+      mode: 'lines',
+      name: 'Truncated Gradient',
+      line: {
+        color: 'blue',
+        width: 3
+      },
+      hoverinfo: 'none'
+    };
+    Plotly.plot('truncated-gradient-1', [trace], layout, {displayModeBar: false});
+    })()
+    </script>
 
-<div id="truncated-gradient-1" style="width: 400px; height: 400px;">
-<!-- Plotly chart will be drawn inside this DIV -->
-</div>
-<script>
-const a = 1
-var layout1 = {
-  title: 'Truncated Gradient T1',
-  xaxis: {
-    title: 'w',
-    range: [-range, range],
-    showticklabels: false
-  },
-  yaxis: {
-    title: 'T1',
-    range: [-range, range],
-    showticklabels: false
-  },
-  width: 400,
-  height: 400,
-  annotations: [
-    { x: -d, y: 0, xref: 'x', yref: 'y', text: '-d', showarrow: true, arrowhead: 7, ax: 0, ay: -40 },
-    { x:  d, y: 0, xref: 'x', yref: 'y', text: ' d', showarrow: true, arrowhead: 7, ax: 0, ay:  40 },
-    { x: -a, y: 0, xref: 'x', yref: 'y', text: '-a', showarrow: true, arrowhead: 7, ax: 0, ay:  20 },
-    { x:  a, y: 0, xref: 'x', yref: 'y', text: ' a', showarrow: true, arrowhead: 7, ax: 0, ay:  -20 },
-  ]
-};
-var trace1 = {
-  type: 'scatter',
-  x: [-range, -d, -d,    -a, a, d,     d, range],
-  y: [-range, -d, -(d-a), 0, 0, (d-a), d, range],
-  mode: 'lines',
-  name: 'Truncated Gradient',
-  line: {
-    color: 'blue',
-    width: 3
-  },
-  hoverinfo: 'none'
-};
-Plotly.plot('truncated-gradient-1', [trace1], layout1, {displayModeBar: false});
-</script>
+1. #### FOBOS
+
+    前向后向切分（FOBOS，Forward Backward Splitting）是 John Duchi 和 Yoran Singer 提出的。在该算法中，权重的更新分成两个步骤：
+
+    $$
+    {w}_{t+\frac{1}{2}} = {w}_{t} - \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\\
+    {w}_{t+1} = \arg\min_{w}\{\frac{1}{2}\left\|{w} - {w}_{t+\frac{1}{2}}\right\|^2 + \eta_{t+\frac{1}{2}}\:\lambda\:\ell({w_{t}})\}
+    $$
+
+    第一个步骤实际上是一个标准的梯度下降（SGD），第二个步骤是对第一个步骤的结果进行局部调整。写成一个公式那就是：
+
+    $$
+    {w}_{t+1} = \arg\min_{w}\{\frac{1}{2}\left\|{w} - {w}_{t} + \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\right\|^2 + \eta_{t+\frac{1}{2}}\:\lambda\:\ell({w_{t}})\}
+    $$
+
+    求偏导，得到权重更新的公式：
+
+    $$
+    {w}_{t+1} = {w}_{t} - \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}} - \eta_{t+\frac{1}{2}}\:\lambda\:\partial\ell({w_{t+1}})
+    $$
+
+    从上面的公式可以看出，更新后的 $${w}_{t+1}$$ 不仅和 $${w}_{t}$$ 有关，还和 $$\ell({w_{t+1}})$$ 有关，这也就是“前向后向切分”这个名称的由来。
+
+    在 L1 正则化下，FOBOS 的特征权重的各个维度的更新公式是：
+
+    $$
+    {w}_{t+1} = sgn\Big({w}_{t} - \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\Big)\ max\{0, \left|{w}_{t} - \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\right| - \eta_{t+\frac{1}{2}}\:\lambda\}
+    $$
+
+    其中$${w}$$是特征权重$${W}$$的某一维度，可以对 $${W}$$ 的每一个维度进行单独求解。
+
+    <p data-height="540" data-theme-id="0" data-slug-hash="GyoWaj" data-default-tab="result" data-user="Halo9Pan" data-embed-version="2" data-pen-title="FOBOS" class="codepen">See the Pen <a href="https://codepen.io/Halo9Pan/pen/GyoWaj/">FOBOS</a> by Halo Pan (<a href="https://codepen.io/Halo9Pan">@Halo9Pan</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 
 
-<div id="l1-regularization" style="width: 600px; height: 400px;">
-<!-- Plotly chart will be drawn inside this DIV -->
-</div>
-<script>
-const range = 10
-const mod = 4
-var layout = {
-  title: 'L1 Regularization',
-  xaxis: {
-    range: [-range, range]
-  },
-  yaxis: {
-    range: [-range, range]
-  },
-  width: 400,
-  height: 400,
-  shapes: [
-    {
-      type: 'line',
-      x0: mod,
-      y0: 0,
-      x1: 0,
-      y1: mod,
-    },
-    {
-      type: 'line',
-      x0: 0,
-      y0: mod,
-      x1: -mod,
-      y1: 0,
-    },
-    {
-      type: 'line',
-      x0: -mod,
-      y0: 0,
-      x1: 0,
-      y1: -mod,
-    },
-    {
-      type: 'line',
-      x0: 0,
-      y0: -mod,
-      x1: mod,
-      y1: 0,
-    },
-    {
-      type: 'line',
-      x0: mod,
-      y0: 0,
-      x1: 0,
-      y1: mod,
-    },
-  ]
-};
+    上面是一个一维$${w}$$的图，可以看出随着迭代次数的增加，$${w}$$会趋于稳定，但同时也能发现，$$\lambda$$取值对$${w}$$的影响。直观理解，因为$$\lambda$$是正则化系数，如果值太小，正则惩罚的力度太小，迭代更趋向于去拟合$${w}$$值。此处简化$$\eta_{t}$$和$$\eta_{t+\frac{1}{2}}$$取值一样，并且为固定值，但实际上可以为基于$$t$$的单调函数。
 
-var data = [];
+1. #### RDA
 
-Plotly.plot('l1-regularization', data, layout);
-</script>
+    RDA（Regularized Dual Averaging Algorithm）叫做正则对偶平均算法，特征权重的更新策略是：
+
+    $$
+    {w}_{t+1} = \arg\min_{w}\{\frac{1}{t}\sum_{r=1}^t[\eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}]\cdot{w}_{t} + \lambda\:\ell({w_{t}}) + \frac{\beta_{t}}{t}\:\hbar({w_{t}})\}
+    $$
+
+    $$\frac{1}{t}\sum_{r=1}^t[\eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}]\cdot{w}_{t}$$包括了之前所有梯度的平均值；
+    $$\ell({w_{t}})$$为正则项，$$\lambda$$为正则系数；
+    $$\hbar({w_{t}})$$是一个严格凸函数，$$\beta_{t}$$是一个非负递增序列
+
+    在 L1 正则化下，选取$$\beta^{t}=\gamma\sqrt{t} \text{ with } \gamma>0$$。那么 RDA 算法就改写为：
+
+    $$
+    {w}_{t+1} = \arg\min_{w}\{\frac{1}{t}\sum_{r=1}^t[\eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}]\cdot{w}_{t} + \lambda\:\left|{w_{t}}\right| + \frac{\gamma}{2\sqrt{t}}\:\left\|{w_{t}}\right\|\}
+    $$
+
+    求偏导，得到更新公式：
+
+    $$
+    {w_{t+1}} =
+      \begin{cases}
+        0                                                                              & \quad \text{if } \left|\bar{g_{t}}\right| < \lambda\\
+        -\frac{\sqrt{t}}{\gamma}\big(\bar{g_{t}} - \lambda\cdot sgn(\bar{g_{t}})\big)  & \quad \text{otherwise}
+      \end{cases}
+    $$
+
+    <p data-height="719" data-theme-id="0" data-slug-hash="OzNyMw" data-default-tab="result" data-user="Halo9Pan" data-embed-version="2" data-pen-title="RDA" class="codepen">See the Pen <a href="https://codepen.io/Halo9Pan/pen/OzNyMw/">RDA</a> by Halo Pan (<a href="https://codepen.io/Halo9Pan">@Halo9Pan</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+
+1. #### FTRL
+
