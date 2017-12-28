@@ -43,10 +43,10 @@ FTRL 在处理诸如逻辑回归之类的带非光滑正则化项（例如1范�
 逻辑回归的**目标函数**可归纳为：
 
 $$
-\hat{w} = \arg\min_{w}\sum_{i}L(y_i, {h}_{w}(x_i)) + \lambda{C}({w})
+\hat{w} = \arg\min_{w}\sum_{i}L(y_i, {h}_{w}(x_i)) + \lambda\Psi({w})
 $$
 
-$$L$$为逻辑函数，$$\lambda$$是正则系数，$$C$$是正则函数
+$$L$$为逻辑函数，$$\lambda$$是正则系数，$$\Psi$$是正则函数
 <div id="sigmod" style="width: 600px; height: 400px;">
 <!-- Plotly chart will be drawn inside this DIV -->
 </div>
@@ -124,7 +124,7 @@ $$
     如之前提到的，在线学习的过程中参数并不是沿着全局梯度下降，而是沿着某个样本的梯度进行下降，L1 正则不一定会得到稀疏解。另外如果是自己实现的梯度下降算法，需要针对 float 数据类型做简单的阈值截断，牵涉到浮点数精度问题，否则很难能到 0 解。
 
     $$
-    {w}_{t+1} = {w}_{t} - \eta\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}} + \eta\:\lambda\:\ell({w_{t}})
+    {w}_{t+1} = {w}_{t} - \eta\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}} + \eta\:\lambda\:\psi({w_{t}})
     $$
 
 1. #### 暴力截断
@@ -190,7 +190,7 @@ $$
     很明显，简单截断的方法可以增加结果的稀疏性，但是会影响结果的精度。权重小的特征，可能是确实是无用特征，但也可能是在训练刚开始的阶段初始值本来很小、或者训练数据中包含该特征的样本数本来就很少。做为改进，很容易想到可以在添加了在 L1 正则的基础上做截断。
 
     $$
-    {w}_{t+1} = T_1\bigg(\Big({w}_{t} - \eta\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}} + \eta\:\lambda\:\ell({w_{t}})\Big),\ {d}\bigg)
+    {w}_{t+1} = T_1\bigg(\Big({w}_{t} - \eta\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}} + \eta\:\lambda\:\psi({w_{t}})\Big),\ {d}\bigg)
     $$
 
     $$
@@ -252,34 +252,33 @@ $$
     前向后向切分（FOBOS，Forward Backward Splitting）是 John Duchi 和 Yoran Singer 提出的。在该算法中，权重的更新分成两个步骤：
 
     $$
-    {w}_{t+\frac{1}{2}} = {w}_{t} - \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\\
-    {w}_{t+1} = \arg\min_{w}\{\frac{1}{2}\left\|{w} - {w}_{t+\frac{1}{2}}\right\|^2 + \eta_{t+\frac{1}{2}}\:\lambda\:\ell({w_{t}})\}
+    {w}_{t+\frac{1}{2}} = {w}_{t} - \eta_{t}{g_{t}}\\
+    {w}_{t+1} = \arg\min_{w}\{\frac{1}{2}\left\|{w} - {w}_{t+\frac{1}{2}}\right\|^2 + \eta_{t+\frac{1}{2}}\:\lambda\:\psi({w_{t}})\}
     $$
 
-    第一个步骤实际上是一个标准的梯度下降（SGD），第二个步骤是对第一个步骤的结果进行局部调整。写成一个公式那就是：
+    第一个步骤实际上是一个标准的梯度下降（SGD），其中$${g_{t}}=\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}$$，为当前梯度，第二个步骤是对第一个步骤的结果进行局部调整。写成一个公式那就是：
 
     $$
-    {w}_{t+1} = \arg\min_{w}\{\frac{1}{2}\left\|{w} - {w}_{t} + \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\right\|^2 + \eta_{t+\frac{1}{2}}\:\lambda\:\ell({w_{t}})\}
+    {w}_{t+1} = \arg\min_{w}\{\frac{1}{2}\left\|{w} - {w}_{t} + \eta_{t}{g_{t}}\right\|^2 + \eta_{t+\frac{1}{2}}\:\lambda\:\psi({w_{t}})\}
     $$
 
     求偏导，得到权重更新的公式：
 
     $$
-    {w}_{t+1} = {w}_{t} - \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}} - \eta_{t+\frac{1}{2}}\:\lambda\:\partial\ell({w_{t+1}})
+    {w}_{t+1} = {w}_{t} - \eta_{t}{g_{t}} - \eta_{t+\frac{1}{2}}\:\lambda\:\partial\psi({w_{t+1}})
     $$
 
-    从上面的公式可以看出，更新后的 $${w}_{t+1}$$ 不仅和 $${w}_{t}$$ 有关，还和 $$\ell({w_{t+1}})$$ 有关，这也就是“前向后向切分”这个名称的由来。
+    从上面的公式可以看出，更新后的 $${w}_{t+1}$$ 不仅和 $${w}_{t}$$ 有关，还和 $$\psi({w_{t+1}})$$ 有关，这也就是“前向后向切分”这个名称的由来。
 
     在 L1 正则化下，FOBOS 的特征权重的各个维度的更新公式是：
 
     $$
-    {w}_{t+1} = sgn\Big({w}_{t} - \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\Big)\ max\{0, \left|{w}_{t} - \eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}\right| - \eta_{t+\frac{1}{2}}\:\lambda\}
+    {w}_{t+1} = sgn({w}_{t} - \eta_{t}{g_{t}})\ max\{0, \left|{w}_{t} - \eta_{t}{g_{t}}\right| - \eta_{t+\frac{1}{2}}\:\lambda\}
     $$
 
     其中$${w}$$是特征权重$${W}$$的某一维度，可以对 $${W}$$ 的每一个维度进行单独求解。
 
     <p data-height="540" data-theme-id="0" data-slug-hash="GyoWaj" data-default-tab="result" data-user="Halo9Pan" data-embed-version="2" data-pen-title="FOBOS" class="codepen">See the Pen <a href="https://codepen.io/Halo9Pan/pen/GyoWaj/">FOBOS</a> by Halo Pan (<a href="https://codepen.io/Halo9Pan">@Halo9Pan</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-
 
     上面是一个一维$${w}$$的图，可以看出随着迭代次数的增加，$${w}$$会趋于稳定，但同时也能发现，$$\lambda$$取值对$${w}$$的影响。直观理解，因为$$\lambda$$是正则化系数，如果值太小，正则惩罚的力度太小，迭代更趋向于去拟合$${w}$$值。此处简化$$\eta_{t}$$和$$\eta_{t+\frac{1}{2}}$$取值一样，并且为固定值，但实际上可以为基于$$t$$的单调函数。
 
@@ -288,17 +287,17 @@ $$
     RDA（Regularized Dual Averaging Algorithm）叫做正则对偶平均算法，特征权重的更新策略是：
 
     $$
-    {w}_{t+1} = \arg\min_{w}\{\frac{1}{t}\sum_{r=1}^t[\eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}]\cdot{w}_{t} + \lambda\:\ell({w_{t}}) + \frac{\beta_{t}}{t}\:\hbar({w_{t}})\}
+    {w}_{t+1} = \arg\min_{w}\{\bar{g_{t}}\cdot{w_t} + \lambda\:\psi({w_{t}}) + \frac{\beta_{t}}{t}\:\hbar({w_{t}})\}
     $$
 
-    $$\frac{1}{t}\sum_{r=1}^t[\eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}]\cdot{w}_{t}$$包括了之前所有梯度的平均值；
-    $$\ell({w_{t}})$$为正则项，$$\lambda$$为正则系数；
+    $$\bar{g_{t}}=\frac{1}{t}\sum_{r=1}^t[\eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}]\cdot{w}_{t}$$，包括了之前所有梯度的平均值；
+    $$\psi({w_{t}})$$为正则项，$$\lambda$$为正则系数；
     $$\hbar({w_{t}})$$是一个严格凸函数，$$\beta_{t}$$是一个非负递增序列
 
     在 L1 正则化下，选取$$\beta^{t}=\gamma\sqrt{t} \text{ with } \gamma>0$$。那么 RDA 算法就改写为：
 
     $$
-    {w}_{t+1} = \arg\min_{w}\{\frac{1}{t}\sum_{r=1}^t[\eta_{t}\:\big(h_{w_{t}}(x_{t+1}) - y\big)\cdot{x_{t+1}}]\cdot{w}_{t} + \lambda\:\left|{w_{t}}\right| + \frac{\gamma}{2\sqrt{t}}\:\left\|{w_{t}}\right\|\}
+    {w}_{t+1} = \arg\min_{w}\{\bar{g_{t}}\cdot{w_t} + \lambda\:\left|{w_{t}}\right| + \frac{\gamma}{2\sqrt{t}}\:\left\|{w_{t}}\right\|\}
     $$
 
     求偏导，得到更新公式：
@@ -311,7 +310,48 @@ $$
       \end{cases}
     $$
 
-    <p data-height="719" data-theme-id="0" data-slug-hash="OzNyMw" data-default-tab="result" data-user="Halo9Pan" data-embed-version="2" data-pen-title="RDA" class="codepen">See the Pen <a href="https://codepen.io/Halo9Pan/pen/OzNyMw/">RDA</a> by Halo Pan (<a href="https://codepen.io/Halo9Pan">@Halo9Pan</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+    <p data-height="680" data-theme-id="0" data-slug-hash="OzNyMw" data-default-tab="result" data-user="Halo9Pan" data-embed-version="2" data-pen-title="RDA" class="codepen">See the Pen <a href="https://codepen.io/Halo9Pan/pen/OzNyMw/">RDA</a> by Halo Pan (<a href="https://codepen.io/Halo9Pan">@Halo9Pan</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 
 1. #### FTRL
+
+    FTRL 算法综合考虑了 FOBOS 和 RDA 对于梯度和正则项的优势和不足，其特征权重的更新公式是：
+
+    $$
+    {w}_{t+1} = \arg\min_{w}\{ {z_{t}}\cdot{w_t} + \lambda_1\:\psi_1({w_{t}}) + \frac{1}{2}({\lambda_2} + \sum_{s=1}^t\sigma_s)\cdot{w_t}^2 \}
+    $$
+
+    其中$${z_{t}} = {z_{t-1}} + {g_{t} - \sigma\cdot{w_{t}}}$$。
+    在 L1 正则化下，算法就改写为：
+
+    $$
+    {w}_{t+1} = \arg\min_{w}\{ {z_{t}}\cdot{w_t} + \lambda_1\:({w_{t}}| + \frac{1}{2}({\lambda_2} + \sum_{s=1}^t\sigma_s)\cdot{w_t}^2 \}
+    $$
+
+    求偏导，得到更新公式：
+
+    $$
+    {w_{t+1}} =
+      \begin{cases}
+        0                                                                              & \quad \text{if } \left|{z_{t}}\right| < \lambda_1\\
+        -(\lambda_2+\sum_{s=1}^t\sigma_s)^{-1}\cdot\big({z_{t}}-\lambda_1\cdot sgn({z_{t}})\big)  & \quad \text{otherwise}
+      \end{cases}
+    $$
+
+    在 SGD, FOBOS, RDA 的算法里面使用的是一个全局的学习率 $$\eta_{(t)}$$，意味着学习率是一个正数并且逐渐递减，对每一个维度都是一样的。
+    而在 FTRL 算法里面，每个维度的学习率是不一样的。
+    FTRL 考虑了训练样本本身在不同特征上分布的不均匀性，如果某一个维度特征的训练样本很少，每一个样本都很珍贵，那么该特征维度对应的训练速率可以独自保持比较大的值，每来一个包含该特征的样本，就可以在该样本的梯度上前进一大步，而不需要与其他特征维度的前进步调强行保持一致。在 FTRL 中，维度$$w^{i}$$的学习率是这样定义的：
+
+    $$
+    \eta_{t}^{i}=\frac{\alpha}{\beta+\sqrt{\sum_{s=1}^{t}(g_{s}^{i})^{2}}}
+    $$
+
+    定义$$\sigma_{(1:t)}=\frac{1}{\eta_{t}}$$, 所以
+
+    $$
+    \sum_{s=1}^{t}\sigma_{s}=\frac{1}{\eta_{t}^{i}}=\frac{\beta+\sqrt{\sum_{s=1}^{t}(g_{s}^{i})^{2}}}{\alpha}
+    $$
+
+    其中$$\alpha$$为学习率，$$\beta$$为学习率的平滑系数，$$\lambda_1$$为 L1 正则系数，$$\lambda_2$$为 L2 正则系数。
+
+    <p data-height="800" data-theme-id="0" data-slug-hash="JMEaab" data-default-tab="result" data-user="Halo9Pan" data-embed-version="2" data-pen-title="FTRL" class="codepen">See the Pen <a href="https://codepen.io/Halo9Pan/pen/JMEaab/">FTRL</a> by Halo Pan (<a href="https://codepen.io/Halo9Pan">@Halo9Pan</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 
