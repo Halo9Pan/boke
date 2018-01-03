@@ -355,3 +355,61 @@ $$
 
     <p data-height="800" data-theme-id="0" data-slug-hash="JMEaab" data-default-tab="result" data-user="Halo9Pan" data-embed-version="2" data-pen-title="FTRL" class="codepen">See the Pen <a href="https://codepen.io/Halo9Pan/pen/JMEaab/">FTRL</a> by Halo Pan (<a href="https://codepen.io/Halo9Pan">@Halo9Pan</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 
+## 工程实现
+
+1. ### 伪代码
+
+    伪代码在公式表达的基础上做了一些变换和实现上的trick，可以在实际数据集上并行加速：
+
+    $$
+    \mathbf{Input}: \alpha, \beta, \lambda_1, \lambda_2 \\
+    (\forall{i}\in\{1,\ldots,d\}), initialize\ z_i = 0, n_i = 0 \\
+    \mathbf{for}\ t = 1\ \mathbf{to}\ T\ \mathbf{do} \\
+    \quad \mathbf{x_t},\ I = \{i|x_i\neq0\} \\
+    \quad For\ i \in I \\
+    \quad {w_{t,i}} =
+    \begin{cases}
+      0  & \quad \text{if } \left|{z_i}\right| < \lambda_1 \\
+      -(\frac{\beta + \sqrt{n_i}}{\alpha} + \lambda_2)^{-1}\cdot\big({z_i}-\lambda_1\cdot sgn({z_i})\big)  & \quad \text{otherwise}
+    \end{cases} \\
+    \quad Predict\ p_t = \sigma(\mathbf{x_t} \cdot \mathbf{w})\\
+    \quad Observe\ y_t \in \{0,1\}\\
+    \quad \mathbf{for}\ i \in I\ \mathbf{do} \\
+    \qquad g_i = (p_t - y_t)\cdot x_i \\
+    \qquad \sigma_i = \frac{\sqrt{n_i + g_i^2} - \sqrt{n_i}}{\alpha} \\
+    \qquad z_i \leftarrow z_i + g_i -\sigma_iw_{t,i} \\
+    \qquad n_i \leftarrow n_i + g_i^2 \\
+    \quad \mathbf{end} \\
+    \mathbf{end}
+    $$
+
+1. ### Predict
+    因为添加了 L1 正则，训练结果 $$w$$ 很稀疏
+
+1. ### Training
+    1. #### 在线丢弃训练数据中很少出现的特征
+    但是对于在线训练，对全数据进行处理查看哪些特征出现地很少、或者哪些特征无用，是代价很大的事情，所以要想训练的时候就做稀疏化，就要用一些在线的方法
+        1. Poisson Inclusion: 对某一维度特征所来的训练样本，以 $$p$$ 的概率接受并更新模型
+        1. Bloom Filter Inclusion: 用 bloom filter 从概率上做某一特征出现 k 次才更新
+
+    1. #### 浮点数重新编码
+
+        1. 特征权重不需要用32bit或64bit的浮点数存储，存储浪费空间
+        2. 16bit encoding，但是要注意处理 rounding 技术对 regret 带来的影响
+
+    1. #### 训练若干相似模型
+
+        1. 对同一份训练数据序列，同时训练多个相似的模型
+        1. 这些模型有各自独享的一些特征，也有一些共享的特征
+        1. 有的特征维度可以是各个模型独享的，可以用同样的数据训练
+
+    1. #### 模型共享
+
+        1. 多个模型公用一个特征存储（例如放到 redis 中），各个模型都更新这个共有的特征结构
+        1. 对于某一个模型，对于其所训练的特征向量的某一维，直接计算一个迭代结果并与旧值做一个平均
+
+    1. #### 使用正负样本的**数目**来计算梯度的和
+
+    1. #### 二次抽样
+
+        在实际中，CTR远小于50%，所以正样本更加有价值。通过对训练数据集进行二次抽样，可以大大减小训练数据集的大小。可以正样本全部采，负样本使用一个比例 r 采样。但是直接在这种采样上进行训练，会导致比较大的预测偏差，因此可以对样本再乘一个权重。权重直接乘到损失函数上面，从而梯度也会乘以这个权重，先采样减少负样本数目，在训练的时候再用权重弥补负样本。
