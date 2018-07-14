@@ -2,7 +2,7 @@
 layout:     post
 title:      Java Concurrency 40问
 date:       2015-12-25
-categories: Development
+categories: Programming
 ---
 
 1. 多线程有什么用？
