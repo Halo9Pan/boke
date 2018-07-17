@@ -1,0 +1,19 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+BaseProtocol : connection_made()
+BaseProtocol : connection_lost()
+BaseProtocol : pause_writing()
+BaseProtocol : resume_writing()
+BaseProtocol : connection_lost()
+BaseProtocol <|-- Protocol
+Protocol : data_received()
+Protocol : eof_received()
+BaseProtocol <|-- DatagramProtocol
+DatagramProtocol : datagram_received()
+DatagramProtocol : error_received()
+BaseProtocol <|-- SubprocessProtocol
+SubprocessProtocol : pipe_data_received()
+SubprocessProtocol : pipe_connection_lost()
+SubprocessProtocol : process_exited()
+@enduml

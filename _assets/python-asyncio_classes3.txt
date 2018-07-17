@@ -1,0 +1,18 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+Future : cancel()
+Future : cancelled()
+Future : done()
+Future : result()
+Future : exception()
+Future : add_done_callback()
+Future : remove_done_callback()
+Future : set_result()
+Future : set_exception()
+Task : {static} all_tasks()
+Task : {static} current_task()
+Task : cancel()
+Task : get_stack()
+Task : print_stack()
+@enduml

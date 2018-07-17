@@ -1,0 +1,25 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+StreamReader : exception()
+StreamReader : feed_eof()
+StreamReader : feed_data()
+StreamReader : set_exception()
+StreamReader : set_transport()
+StreamReader : read()
+StreamReader : readline()
+StreamReader : readexactly()
+StreamReader : readuntil()
+StreamReader : at_eof()
+StreamWriter : transport
+StreamWriter : can_write_eof()
+StreamWriter : close()
+StreamWriter : drain()
+StreamWriter : get_extra_info()
+StreamWriter : write()
+StreamWriter : writelines()
+StreamWriter : write_eof()
+Protocol <|-- StreamReaderProtocol
+StreamReaderProtocol o-- StreamReader
+StreamReaderProtocol *-- StreamWriter
+@enduml

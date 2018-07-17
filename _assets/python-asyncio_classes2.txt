@@ -1,0 +1,8 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+AbstractEventLoopPolicy <|-- BaseDefaultEventLoopPolicy
+AbstractEventLoopPolicy : get_event_loop()
+AbstractEventLoopPolicy : set_event_loop()
+AbstractEventLoopPolicy : new_event_loop()
+@enduml

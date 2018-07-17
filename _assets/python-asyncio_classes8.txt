@@ -1,0 +1,16 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+Queues : empty()
+Queues : full()
+Queues : get()
+Queues : get_nowait()
+Queues : join()
+Queues : put()
+Queues : put_nowait()
+Queues : qsize()
+Queues : task_done()
+Queues : maxsize
+Queues <|-- PriorityQueue
+Queues <|-- LifoQueue
+@enduml

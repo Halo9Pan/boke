@@ -1,0 +1,32 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+BaseTransport : close()
+BaseTransport : is_closing()
+BaseTransport : get_extra_info()
+BaseTransport : set_protocol()
+BaseTransport : get_protocol()
+BaseTransport <|-- ReadTransport
+ReadTransport : pause_reading()
+ReadTransport : resume_reading()
+BaseTransport <|-- WriteTransport
+WriteTransport : abort()
+WriteTransport : can_write_eof()
+WriteTransport : get_write_buffer_size()
+WriteTransport : get_write_buffer_limits()
+WriteTransport : set_write_buffer_limits()
+WriteTransport : write()
+WriteTransport : writelines()
+WriteTransport : write_eof()
+BaseTransport <|-- DatagramTransport
+DatagramTransport : sendto()
+DatagramTransport : abort()
+BaseTransport <|-- BaseSubprocessTransport
+BaseSubprocessTransport : get_pid()
+BaseSubprocessTransport : get_pipe_transport()
+BaseSubprocessTransport : get_returncode()
+BaseSubprocessTransport : kill()
+BaseSubprocessTransport : send_signal()
+BaseSubprocessTransport : terminate()
+BaseSubprocessTransport : close()
+@enduml

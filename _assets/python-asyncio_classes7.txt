@@ -1,0 +1,22 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+Lock : locked()
+Lock : acquire()
+Lock : release()
+Event : clear()
+Event : is_set()
+Event : set()
+Event : wait()
+Condition : acquire()
+Condition : notify()
+Condition : locked()
+Condition : notify_all()
+Condition : release()
+Condition : wait()
+Condition : wait_for()
+Semaphore : acquire()
+Semaphore : locked()
+Semaphore : release()
+Semaphore <|-- BoundedSemaphore
+@enduml
