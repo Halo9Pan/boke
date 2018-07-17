@@ -48,13 +48,17 @@
 
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
+    {% if page.mermaid %}
+    <link rel="stylesheet" href="https://unpkg.com/mermaid@7.0.14/dist/themes/mermaid.default.min.css">
+    {% endif %}
+
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
     <![endif]-->
   </head>
 
   <body>
-  
+
     <div class="reveal">
       <div class="slides">
         {{ content }}
@@ -63,6 +67,17 @@
 
     {% if page.plotly %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.31.2/plotly.min.js"></script>
+    {% endif %}
+    {% if page.flow %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.11.3/flowchart.min.js"></script>
+    {% endif %}
+    {% if page.sequence %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+    {% endif %}
+    {% if page.mermaid %}
+    <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
     {% endif %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/lib/js/head.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/js/reveal.js"></script>
@@ -101,6 +116,6 @@
       });
 
     </script>
-    
+
   </body>
 </html>
