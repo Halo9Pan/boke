@@ -1,6 +1,6 @@
 ---
 layout:     slide
-title:      Python asyncio Part A
+title:      Python asyncio
 date:       2018-07-14
 categories: Programming
 theme:      beige
@@ -16,7 +16,7 @@ mermaid:    true
 
 ## Part A
 
----
+----
 
 ### 概念介绍
 
@@ -133,7 +133,7 @@ futures = [asyncio.ensure_future(do_some_work(4)),
 loop.run_until_complete(asyncio.gather(*futures))
 ````
 
----
+----
 
 ### API 简介
 
@@ -238,7 +238,7 @@ loop.run_until_complete(asyncio.gather(*futures))
 ![Base Event Loop](../assets/python-asyncio_classes8.png)
 
 
----
+----
 
 ### 示例
 
@@ -366,6 +366,201 @@ loop.run_until_complete(asyncio.gather(
 ))
 loop.close()
 ````
+
+---
+
+## Part B
+
+----
+
+![BaseEventLoopPolicy](../assets/python-asyncio_sequence1.png)
+
+----
+
+![run_until_complete](../assets/python-asyncio_sequence2.png)
+
+----
+
+![run_forever](../assets/python-asyncio_sequence3.png)
+
+----
+
+![_run_once](../assets/python-asyncio_sequence4.png)
+
+---
+
+## Part C
+
+----
+
+#### Thread
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+**一系列按照线性顺序可以执行的指令**  
+**一个逻辑上可以执行的路径**  
+CPUs 中的每一个 Core 在同一时刻只能真正并发执行一个逻辑 Thread  
+如果 Threads 个数大于 CPU 的 Core 个数的话，有一部分的 Threads 就必须要暂停来让其他 Threads 工作，直到这些 Threads 到达一定的时机时才会被恢复继续执行
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+而暂停和恢复一个线程，至少需要记录两件事情  
+* 当前执行的指令位置。前线程被暂停时，线程正在执行的代码行  
+* 还需要一个栈空间。 这个栈空间保存了当前线程的状态。（对于 Java 来说，一个进程里面所有的 Threads 是共享一个堆内存的）  
+有了上面两样东西后，CPU 在调度 Thread 的时候，就有了足够的信息，可以暂停一个 Thread，调度其他 Thread 运行，然后再将暂停的 Thread 恢复，从而继续执行。  
+这些操作对于 Thread 来说通常是完全透明的。从 Thread 的角度来看，它一直都在连续的运行着
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+操作系统的 Threads 的最大能力一般在万级别
+主要消耗是在上下文切换的延迟
+上下文的切换大概需要消耗 1-100µ 秒。在现实中每次平均切换需要消耗10µ秒
+
+----
+
+Python
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+[Tornado](http://www.tornadoweb.org)  
+Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed. By using non-blocking network I/O, Tornado can scale to tens of thousands of open connections, making it ideal for long polling, WebSockets, and other applications that require a long-lived connection to each user.  
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+[gevent](http://www.gevent.org/)  
+gevent is a coroutine-based Python networking library that uses greenlet to provide a high-level synchronous API on top of the libev or libuv event loop.
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+[uvloop](https://github.com/MagicStack/uvloop)  
+uvloop is a fast, drop-in replacement of the built-in asyncio event loop. uvloop is implemented in Cython and uses libuv under the hood.  
+[Server Performance Benchmark Report](https://magic.io/blog/uvloop-blazing-fast-python-networking/tcp-bench.html)
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+[sanic](https://github.com/channelcat/sanic)
+Async Python 3.5+ web server that's written to go fast
+
+----
+
+Node.JS
+
+----
+
+[yield](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/yield)
+````javascript
+function* countAppleSales () {
+  var saleList = [3, 7, 5];
+  for (var i = 0; i < saleList.length; i++) {
+    yield saleList[i];
+  }
+}
+````
+````javascript
+var appleStore = countAppleSales(); // Generator { }
+console.log(appleStore.next()); // { value: 3, done: false }
+console.log(appleStore.next()); // { value: 7, done: false }
+console.log(appleStore.next()); // { value: 5, done: false }
+console.log(appleStore.next()); // { value: undefined, done: true }
+````
+
+----
+
+[Promise](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+````js
+let person = {name: "didi"};
+mongoDb
+    .open()
+    .then(function(database){
+      return database.collection("users");
+    })
+    .then(function(collection){
+      return collection.insert(person);
+    })
+    .then(function(result){
+      console.log(result);
+    })
+    .catch(function(e){
+      throw new Error(e);
+    })
+````
+
+----
+
+[co](https://github.com/tj/co)
+````js
+let co = require("co");
+co(function *(){
+    let db, collection, result;
+    let person = {name: "didi"};
+    try{
+        db = yield mongoDb.open();
+        collection = yield db.collection("users");
+        result = yield collection.insert(person);
+    }catch(e){
+        console.error(e.message);
+    }
+    console.log(result);
+});
+````
+
+----
+
+[async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+````js
+async function insertData(person){
+    let db, collection, result;
+    try{
+        db = await mongoDb.open();
+        collection = await db.collection("users");
+        result = await collection.insert(person);
+    }catch(e){
+        console.error(e.message);
+    }
+    console.log(result);
+}
+insertData({name: "didi"});
+````
+
+----
+
+Golang
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+**Go runtime 调度器**  
+用户空间线程和内核空间线程之间的映射关系：**M:N**
+
+----
+
+----
+
+Java
+
+----
+
+<!-- .slide: style="text-align: left;"> -->
+[Akka](https://akka.io/)  
+[Netty](https://netty.io/)  
+
+----
+
+|    | asyncio | Node.JS | Golang | Java |
+| -- | ------- | ------- | ------ | ---- |
+| Cores | 单核 | 单核 | 多核 | 多核 |
+| Native Thread | N | N | N | Y |
+| Green Thread | Y | Y | ? | N |
+| Callback | Y | Y | function | CompletionHandler |
+| yield | 2.2 | v4.x | N | X |
+| async | 3.5 | v8.x | N | X |
 
 ----
 

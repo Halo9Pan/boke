@@ -1,0 +1,40 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+frame C {
+  folder Modules {
+    [_asynciomodule.c]
+    [selectmodule.c]
+  }
+}
+frame python {
+  folder Lib {
+    [selectors.py]
+    folder asyncio {
+        [base_futures.py]
+        [base_tasks.py]
+        [constants.py]
+        [events.py]
+        [locks.py]
+        [proactor_events.py]
+        [queues.py]
+        [sslproto.py]
+        [subprocess.py]
+        [unix_events.py]
+        [windows_utils.py]
+        [base_events.py]
+        [base_subprocess.py]
+        [compat.py]
+        [coroutines.py]
+        [futures.py]
+        [log.py]
+        [protocols.py]
+        [selector_events.py]
+        [streams.py]
+        [tasks.py]
+        [transports.py]
+        [windows_events.py]
+    }
+  }
+}
+@enduml

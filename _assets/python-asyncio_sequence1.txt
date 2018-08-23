@@ -1,0 +1,12 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+actor X
+X -> asyncio : get_event_loop
+alt current_loop is not None
+  asyncio -> asyncio : current_loop
+else current_loop is None
+  asyncio -> EventLoopPolicy : get_event_loop
+  EventLoopPolicy --> asyncio : _local._loop
+end
+@enduml

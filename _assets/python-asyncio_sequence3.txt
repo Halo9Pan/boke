@@ -1,0 +1,35 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+asyncio -> BaseEventLoop : run_forever
+BaseEventLoop -> BaseEventLoop : _check_closed
+alt is_running
+  BaseEventLoop -> RuntimeError
+end
+alt _get_running_loop() is not None
+  BaseEventLoop -> RuntimeError
+end
+BaseEventLoop -> BaseEventLoop : _set_coroutine_wrapper
+BaseEventLoop -> threading : get_ident
+alt _asyncgens is not None
+  BaseEventLoop -> sys : get_asyncgen_hooks
+  sys -> sys : set_asyncgen_hooks
+end
+alt except
+  BaseEventLoop -> events : _set_running_loop
+  loop
+    BaseEventLoop -> BaseEventLoop : _run_once
+    alt _stopping
+      break
+    end
+  end
+else finally
+  BaseEventLoop -> BaseEventLoop : _stopping
+  BaseEventLoop -> BaseEventLoop : _thread_id
+  BaseEventLoop -> events : _set_running_loop
+  BaseEventLoop -> BaseEventLoop : _set_coroutine_wrapper
+  alt _asyncgens is not None
+    BaseEventLoop -> sys : set_asyncgen_hooks
+  end
+end
+@enduml

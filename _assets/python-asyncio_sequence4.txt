@@ -1,0 +1,22 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam handwritten true
+run_forever -> _run_once
+alt sched_count
+  _run_once -> heapq : heapify
+else
+  loop self._scheduled
+    _run_once -> heapq : heappop
+  end
+end
+_run_once -> _selector : select
+_run_once -> _run_once : _process_events
+loop self._scheduled
+  _run_once -> heapq : heappop
+  _run_once -> _run_once : _ready.append
+end
+loop range(ntodo)
+  _run_once -> _ready : popleft()
+  _run_once -> handle : _run()
+end
+@enduml
